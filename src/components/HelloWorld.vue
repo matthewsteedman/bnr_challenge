@@ -1,33 +1,71 @@
 <template>
-  <h1>{{ msg }}</h1>
+<h3>Top Headlines</h3>
 
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Documentation
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
-  </p>
+  <q-page-container>
+    <div class="parent_div">
+      <q-item v-for="articles in items" :key="articles.id">
+      
+     <q-card class="my-card">
+       <img :src="articles.urlToImage">
+      <q-card-section>
+        <h6>{{ articles.author }}</h6>
+        <div class="text-subtitle2">{{ articles.description }}</div>
+      </q-card-section>
 
-  <button @click="state.count++">count is: {{ state.count }}</button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
+      <q-card-section class="q-pt-none">
+        {{ articles.publishedAt }}
+      </q-card-section>
+    </q-card>
+    </q-item>
+     </div>
+    </q-page-container>
+  
 </template>
 
-<script setup>
-import { defineProps, reactive } from 'vue'
-
-defineProps({
-  msg: String
-})
-
-const state = reactive({ count: 0 })
-</script>
-
-<style scoped>
-a {
-  color: #42b983;
+<style>
+body{
+    background-color: #2c2c2c25;
 }
+.my-card{
+  width: 100%;  
+  max-width: 250px;
+
+}
+h3{
+  text-align: center;
+}
+
 </style>
+
+<script>
+export default {
+  name: 'HelloWorld',
+    created(){
+    this.all_articles()
+  },
+  methods: {
+      all_articles(){
+        try {
+          const url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=dd4c8ce956fb4fa98ada252f4e25153d";
+          fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json)
+            this.items = json.articles
+            console.log("ITEMS",this.items)
+             })
+        } catch (error) {
+          console.log("Server Error")
+          
+        }
+    }
+  },
+
+  setup(){
+    return {
+      items: []
+    }
+  }
+}
+
+</script>
