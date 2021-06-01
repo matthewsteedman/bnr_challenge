@@ -1,10 +1,22 @@
 <template>
 <h3>Top Headlines</h3>
 
+
+      <q-input
+        filled
+        placeholder="Search"
+        class="search"
+      >
+       <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      <q-btn class="search_btn"  label="Search" />
+      
+
   <q-page-container>
     <div class="parent_div">
       <q-item v-for="articles in items" :key="articles.id">
-      
      <q-card class="my-card">
        <img :src="articles.urlToImage">
       <q-card-section>
@@ -28,11 +40,26 @@ body{
 }
 .my-card{
   width: 100%;  
-  max-width: 250px;
-
+  max-width: 500px;
+ 
 }
+.search_btn{
+  color: blue;
+  align-content: center;
+}
+.search{
+  width: 25%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.parent_div{
+  margin: 0 -5px;
+}
+
 h3{
   text-align: center;
+  font-family: sans-serif;
 }
 
 </style>
